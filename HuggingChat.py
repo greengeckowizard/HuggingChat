@@ -1,5 +1,5 @@
 """
-Reverse engineering of Google Bard
+Reverse engineering of HuggingChat
 """
 import argparse
 import json
@@ -53,7 +53,7 @@ class Chatbot:
     A class to interact with Google Bard.
     Parameters
         session_id: str
-            The __Secure-1PSID cookie.
+            The session-space-cookie.
     """
 
     __slots__ = [
@@ -68,12 +68,12 @@ class Chatbot:
 
     def __init__(self, session_id):
         headers = {
-            "Host": "bard.google.com",
+            "Host": "https://huggingface.co/chat/",
             "X-Same-Domain": "1",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            "Origin": "https://bard.google.com",
-            "Referer": "https://bard.google.com/",
+            "Origin": "https://huggingface.co/chat/",
+            "Referer": "https://huggingface.co/chat/",
         }
         self._reqid = int("".join(random.choices(string.digits, k=4)))
         self.conversation_id = ""
@@ -81,7 +81,7 @@ class Chatbot:
         self.choice_id = ""
         self.session = requests.Session()
         self.session.headers = headers
-        self.session.cookies.set("__Secure-1PSID", session_id)
+        self.session.cookies.set("session-space-cookie", session_id)
         self.SNlM0e = self.__get_snlm0e()
 
     def __get_snlm0e(self):
